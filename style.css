@@ -1,0 +1,46 @@
+body {
+	font-family: sans-serif;
+}
+
+.grid-wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	max-height: 100vh;
+	width: 35%;
+}
+
+#grid {
+	outline: 3px solid black;
+	display: flex;
+	flex-direction: column;
+}
+
+.row {
+	display: flex;
+}
+
+.row:nth-child(4) {
+	border-bottom: 3px solid red;
+}
+
+.row.clear {
+}
+
+.cell {
+	width: 10%;
+	aspect-ratio: 1;
+	display: inline-block;
+	outline: 1px solid lightgray;
+	margin: 1px;
+}
+
+.cell.full {
+	outline: 3px solid black;
+	position: relative;
+	z-index: 999;
+}
+
+.cell.dark {
+	outline: 1px solid lightgray;
+	opacity: 0.5;
+}
