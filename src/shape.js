@@ -28,11 +28,19 @@ class ShapeTemplate {
 
 	static {
 		ShapeTemplate.shapes.push(
-			ShapeTemplate.shapes[4].clone("0000FF").mirror()
+			ShapeTemplate.shapes[4].clone("J", "0000FF").mirror()
 		);
 		ShapeTemplate.shapes.push(
-			ShapeTemplate.shapes[2].clone("FF0000").mirror()
+			ShapeTemplate.shapes[2].clone("S", "FF0000").mirror()
 		);
+
+		ShapeTemplate.shapes.forEach((shape) => {
+			ShapeTemplate.colors.push(shape.color);
+		});
+	}
+
+	static getColor(id) {
+		return ShapeTemplate.colors[id];
 	}
 
 	constructor(name, color, datastring) {
@@ -48,8 +56,8 @@ class ShapeTemplate {
 		);
 	}
 
-	clone(color = this.color) {
-		return new ShapeTemplate(color, this.datastring);
+	clone(name, color = this.color) {
+		return new ShapeTemplate(name, color, this.datastring);
 	}
 
 	mirror() {
@@ -70,6 +78,7 @@ class ShapeTemplate {
 
 class Shape {
 	constructor(template, game) {
+		this.id = template.id;
 		this.color = template.color;
 		this.data = this.#deepCopy(template.data);
 		this.game = game;
@@ -81,8 +90,12 @@ class Shape {
 	#deepCopy(data) {
 		const copy = [];
 		for (let i = 0; i < data.length; i++) {
-			const { x, y } = data[i];
-			copy.push({ x, y });
+			const row = [];
+			copy.push(row);
+			for (let j = 0; j < data[i].length; j++) {
+				const { x, y } = data[i][j];
+				row.push({ x, y });
+			}
 		}
 		return copy;
 	}
@@ -96,7 +109,7 @@ class Shape {
 			if (x === -1) return true;
 			if (x === GRID_WIDTH) return true;
 
-			return matrix[y][x] !== 0;
+			return this.board.getGrid(x, y) !== 0;
 		});
 	}
 
@@ -115,7 +128,7 @@ class Shape {
 		this.cells.forEach((cell) => {
 			const x = this.x + cell.x;
 			const y = this.y + cell.y;
-			matrix[y][x] = this.id;
+			this.board.setGrid(x, y, this.id);
 		});
 		this.reset();
 		this.board.clearLines();
@@ -161,7 +174,7 @@ class Shape {
 		const collides = this.cells.some((cell) => {
 			const x = cell.x + this.x;
 			const y = cell.y + this.y;
-			return matrix?.[y]?.[x] !== 0;
+			return this.board.getGrid(x, y) !== 0;
 		});
 
 		if (collides) {
@@ -175,7 +188,7 @@ class Shape {
 	setTiles(reset = true, darken = false) {
 		if (reset) {
 			this.lastData.forEach(({ x, y }) => {
-				setTile(x, y, 0);
+				this.board.setTile(x, y, null);
 			});
 
 			this.lastData = [];

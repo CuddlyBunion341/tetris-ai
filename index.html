@@ -9,17 +9,17 @@
 	</head>
 
 	<body>
-		<script src="src/game.js"></script>
-		<script src="src/shape.js"></script>
-		<script src="src/script.js" defer></script>
-		<h1>Tetris</h1>
-		<div id="container">
-			<button id="playbtn">Play</button>
-			<div id="queue"></div>
-			<div class="grid-wrapper" id="grid-0">
-				<h2>Score: 69420</h2>
-				<div id="grid"></div>
+		<h1>Tetris AI</h1>
+		<div class="container">
+			<div id="col-wrapper">
+				<div class="grid-wrapper">
+					<div id="grid-0" class="grid"></div>
+				</div>
 			</div>
 		</div>
+		<script src="src/game.js"></script>
+		<script src="src/board.js"></script>
+		<script src="src/shape.js"></script>
+		<script src="src/script.js"></script>
 	</body>
 </html>
