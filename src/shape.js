@@ -46,7 +46,7 @@ class ShapeTemplate {
 	constructor(name, color, datastring) {
 		this.id = ++ShapeTemplate.count;
 		this.name = name;
-		this.color = color;
+		this.color = "#" + color;
 		this.datastring = datastring;
 		this.data = datastring.split(";").map((r) =>
 			r.split(",").map((v) => {
@@ -82,7 +82,7 @@ class Shape {
 		this.color = template.color;
 		this.data = this.#deepCopy(template.data);
 		this.game = game;
-		this.board = game.gameBoard;
+		this.board = game.board;
 
 		this.reset();
 	}

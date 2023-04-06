@@ -35,7 +35,7 @@ class GameBoard {
 		return this.matrix[y][x];
 	}
 
-	setTile(x, y, color, darken = false) {
+	setTile(x, y, color, outline = false) {
 		const element = document.querySelector(`#G${this.id}_${x}-${y}`);
 		if (!element) return;
 		if (color === null) {
@@ -44,12 +44,14 @@ class GameBoard {
 			return;
 		}
 
-		if (darken) {
+		if (outline) {
+			element.classList.add("outline");
 			element.classList.remove("full");
 		} else {
+			element.classList.remove("outline");
 			element.classList.add("full");
 		}
-		element.style.setProperty("--color", `#${color}`);
+		element.style.setProperty("--color", color);
 	}
 
 	moveLines(minY) {
