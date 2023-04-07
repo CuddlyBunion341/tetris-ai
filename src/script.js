@@ -1,12 +1,8 @@
-const gridContainer = document.querySelector("#grid-0");
-
 const GRID_WIDTH = 10;
 const GRID_HEIGHT = 24;
 
-const board = new GameBoard(gridContainer);
-const game = new Game(board);
-
-const game2 = new Game(new GameBoard(document.querySelector("#grid-1")));
+const game1 = new Game(new GameBoard(document.querySelector("#board-0")));
+const game2 = new Game(new GameBoard(document.querySelector("#board-1")));
 
 // // add AI games
 // const wrapper = document.querySelector(".grid-wrapper");
@@ -21,11 +17,11 @@ const game2 = new Game(new GameBoard(document.querySelector("#grid-1")));
 document.addEventListener("keydown", (e) => {
 	console.log(e.key);
 	const keyActions = {
-		ArrowLeft: () => game.moveLeft(),
-		ArrowRight: () => game.moveRight(),
-		ArrowDown: () => game.moveDown(),
-		ArrowUp: () => game.rotate(),
-		"/": () => game.drop(),
+		ArrowLeft: () => game1.moveLeft(),
+		ArrowRight: () => game1.moveRight(),
+		ArrowDown: () => game1.moveDown(),
+		ArrowUp: () => game1.rotate(),
+		"/": () => game1.drop(),
 		w: () => game2.rotate(),
 		a: () => game2.moveLeft(),
 		s: () => game2.moveDown(),

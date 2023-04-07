@@ -3,35 +3,40 @@ class ShapeTemplate {
 	static colors = [null];
 
 	static shapes = [
-		new ShapeTemplate("O", "FFFF00", "0.0,0.1,1.0,1.1"),
+		new ShapeTemplate("O", "FFFF00", "0.0,0.1,1.0,1.1", { x: 1, y: 1 }),
 		new ShapeTemplate(
 			"T",
 			"AA00AA",
-			"-1.0,0.0,1.0,0.1;0.-1,0.0,1.0,0.1;-1.0,0.0,1.0,0.-1;0.-1,-1.0,0.0,0.1"
+			"-1.0,0.0,1.0,0.1;0.-1,0.0,1.0,0.1;-1.0,0.0,1.0,0.-1;0.-1,-1.0,0.0,0.1",
+			{ x: 2, y: 1 }
 		),
 		new ShapeTemplate(
 			"Z",
 			"FF0000",
-			"-1.1,0.1,0.0,1.0;1.1,0.0,1.0,0.-1;-1.0,0.0,0.-1,1.-1;0.1,0.0,-1.0,-1.-1"
+			"-1.1,0.1,0.0,1.0;1.1,0.0,1.0,0.-1;-1.0,0.0,0.-1,1.-1;0.1,0.0,-1.0,-1.-1",
+			{ x: 2, y: 1 }
 		),
 		new ShapeTemplate(
 			"I",
 			"00FFFF",
-			"-1.0,0.0,1.0,2.0;1.1,1.0,1.-1,1.-2;-1.-1,0.-1,1.-1,2.-1;0.1,0.0,0.-1,0.-2"
+			"-1.0,0.0,1.0,2.0;1.1,1.0,1.-1,1.-2;-1.-1,0.-1,1.-1,2.-1;0.1,0.0,0.-1,0.-2",
+			{
+				x: 1,
+				y: 1,
+			}
 		),
 		new ShapeTemplate(
 			"L",
 			"FFAA00",
-			"-1.0,0.0,1.0,1.1;0.1,0.0,0.-1,1.-1;-1.-1,-1.0,0.0,1.0;-1.1,0.1,0.0,0.-1"
+			"-1.0,0.0,1.0,1.1;0.1,0.0,0.-1,1.-1;-1.-1,-1.0,0.0,1.0;-1.1,0.1,0.0,0.-1",
+			{ x: 2, y: 1 }
 		),
 	];
 
 	static {
 		ShapeTemplate.shapes.push(
-			ShapeTemplate.shapes[4].clone("J", "0000FF").mirror()
-		);
-		ShapeTemplate.shapes.push(
-			ShapeTemplate.shapes[2].clone("S", "FF0000").mirror()
+			ShapeTemplate.shapes[4].clone("J", "0000FF").mirror(),
+			ShapeTemplate.shapes[2].clone("S", "00FF00").mirror()
 		);
 
 		ShapeTemplate.shapes.forEach((shape) => {
@@ -43,7 +48,7 @@ class ShapeTemplate {
 		return ShapeTemplate.colors[id];
 	}
 
-	constructor(name, color, datastring) {
+	constructor(name, color, datastring, origin = { x: 0, y: 0 }) {
 		this.id = ++ShapeTemplate.count;
 		this.name = name;
 		this.color = "#" + color;
@@ -54,10 +59,11 @@ class ShapeTemplate {
 				return { x, y };
 			})
 		);
+		this.origin = origin;
 	}
 
 	clone(name, color = this.color) {
-		return new ShapeTemplate(name, color, this.datastring);
+		return new ShapeTemplate(name, color, this.datastring, this.origin);
 	}
 
 	mirror() {

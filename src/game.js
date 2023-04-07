@@ -1,5 +1,6 @@
 class Game {
 	static games = [];
+	static timer = 0;
 
 	score = 0;
 	currentShape = null;
@@ -8,20 +9,23 @@ class Game {
 	queue = [];
 
 	static loop() {
+		Game.timer++;
+
 		Game.games.forEach((game, i) => {
-			if (false) {
+			if (i == 0) {
 				// do not use random movement for now
-				const num = Math.floor(Math.random() * 5);
+				const num = Math.floor(Math.random() * 4);
 				if (num === 0) game.moveLeft();
 				if (num === 1) game.moveRight();
-				if (num === 2) game.moveDown();
+				if (num === 2) game.rotate();
 				if (num === 3) game.drop();
 			}
-
-			game.nextStep();
+			if (Game.timer % 5 == 0) {
+				game.nextStep();
+			}
 		});
 
-		setTimeout(Game.loop, 500);
+		setTimeout(Game.loop, 100);
 	}
 
 	constructor(board) {
@@ -41,7 +45,10 @@ class Game {
 	}
 
 	randomShape() {
-		return this.shapes[Math.floor(Math.random() * this.shapes.length)];
+		const index = Math.floor(Math.random() * this.shapes.length);
+		const shape = this.shapes[index];
+		console.log("random:", shape);
+		return shape;
 	}
 
 	nextShape() {
@@ -49,6 +56,11 @@ class Game {
 
 		this.currentShape = this.queue.shift();
 		this.queue.push(this.randomShape());
+
+		this.queue.forEach((shape, i) => {
+			// set queue
+			this.board.setQueue(i, ShapeTemplate.shapes[shape.id - 1]);
+		});
 
 		// test game over
 		if (this.currentShape.testCollision(0, 0)) {
