@@ -176,16 +176,17 @@ class Shape {
 
 		this.rotation += 1;
 		if (this.rotation == 4) this.rotation = 0;
-		// test collision
-		const collides = this.cells.some((cell) => {
-			const x = cell.x + this.x;
-			const y = cell.y + this.y;
-			return this.board.getGrid(x, y) !== 0;
-		});
 
-		if (collides) {
-			this.rotation = rot;
-			return;
+		if (this.testCollision(0, 0)) {
+			this.x += 1;
+			if (this.testCollision(0, 0)) {
+				this.x -= 2;
+				if (this.testCollision(0, 0)) {
+					this.x += 1;
+					this.rotation = rot;
+					return;
+				}
+			}
 		}
 
 		this.place();
